@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: homework20240402
+
+sql:
+  statements:
+    findall: SELECT * FROM userTable
+    save: INSERT INTO userTable (firstName,lastName) VALUES ( ?, ?)
+    deletebyid: DELETE FROM userTable WHERE id=?
+    getone: SELECT * FROM userTable WHERE id = ?
+    update: UPDATE userTable SET firstName=?, lastName=? WHERE id=?

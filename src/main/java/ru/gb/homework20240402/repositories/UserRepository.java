@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ru.gb.homework20240402.configuration.SqlStatementConfiguration;
 import ru.gb.homework20240402.model.User;
-import ru.gb.homework20240402.service.SqlTemplateService;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ public class UserRepository {
 
     private final JdbcTemplate jdbc;
 
-    private SqlTemplateService sqlTemplateService;
+    private SqlStatementConfiguration configuration;
 
     public List<User> findAll() {
-        String sql = sqlTemplateService.getFindAllStatement();
+        String sql = configuration.getFindAll();
         RowMapper<User> userRowMapper = (r, i) -> {
             User rowObject = new User();
             rowObject.setId(r.getInt("id"));
@@ -30,18 +30,18 @@ public class UserRepository {
     }
 
     public User save(User user) {
-        String sql = sqlTemplateService.saveStatement();
+        String sql = configuration.getSave();
         jdbc.update(sql, user.getFirstName(), user.getLastName());
         return  user;
     }
 
     public void deleteById(int id) {
-        String sql = sqlTemplateService.deleteByIdStatement();
+        String sql = configuration.getDeleteById();
         jdbc.update(sql, id);
     }
 
     public User getOne(int id) {
-        String sql = sqlTemplateService.getOneStatement();
+        String sql = configuration.getGetOne();
         RowMapper<User> userRowMapper = (r, i) -> {
             User rowObject = new User();
             rowObject.setId(r.getInt("id"));
@@ -53,7 +53,7 @@ public class UserRepository {
     }
 
     public User update(User user) {
-        String sql = sqlTemplateService.updateStatement();
+        String sql = configuration.getUpdate();
         jdbc.update(sql, user.getFirstName(), user.getLastName(), user.getId());
         return  user;
     }
